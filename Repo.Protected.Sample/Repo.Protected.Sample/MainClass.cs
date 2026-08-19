@@ -1,6 +1,6 @@
 ﻿namespace Repo.Protected.Sample
 {
-  public class Class1
+  public class MainClass
   {
 
   }

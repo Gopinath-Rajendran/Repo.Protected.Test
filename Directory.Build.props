@@ -18,7 +18,7 @@
     <Product>Repo.Protected.Sample for Revit C# .NET Add-In</Product>
     <Copyright>Copyright © 2017-$([System.DateTime]::Now.Year) DiRoots, LDA.</Copyright>
     <SignAssembly>False</SignAssembly>
-    <AssemblyVersion>0.1.0.0</AssemblyVersion>
+    <AssemblyVersion>0.2.0.0</AssemblyVersion>
     <FileVersion>$(AssemblyVersion)</FileVersion>
     <GenerateAssemblyInfo>true</GenerateAssemblyInfo>
     <CommonsAssemblyName>Repo.Protected.Sample.Commons</CommonsAssemblyName>

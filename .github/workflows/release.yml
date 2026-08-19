@@ -1,0 +1,153 @@
+# Automatically creates or updates a GitHub Release when a PR is merged into main.
+#
+# - Reads AssemblyVersion from Directory.Build.props (e.g. 2.9.0.0).
+# - Converts the version to a Git tag (e.g. v2.9.0).
+# - If the tag does not exist, creates the tag and a new GitHub Release.
+# - If the tag already exists, moves the tag to the latest main commit.
+# - Regenerates the release notes when an existing release is updated.
+# - The release title is the version tag (e.g. v2.9.0).
+
+name: Create or Update Release
+
+on:
+  pull_request:
+    types:
+      - closed
+    branches:
+      - main
+
+permissions:
+  contents: write
+
+jobs:
+  release:
+    # The "closed" event also fires when a PR is closed without merging.
+    # Only continue when the PR was actually merged.
+    if: github.event.pull_request.merged == true
+
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout main
+        uses: actions/checkout@v4
+        with:
+          ref: main
+          fetch-depth: 0
+
+      - name: Read version from Directory.Build.props
+        id: version
+        shell: bash
+        run: |
+          assembly_version=$(grep -oPm1 '(?<=<AssemblyVersion>)[^<]+' Directory.Build.props)
+
+          if [ -z "$assembly_version" ]; then
+            echo "Error: AssemblyVersion was not found in Directory.Build.props."
+            exit 1
+          fi
+
+          # Convert 2.9.0.0 -> 2.9.0
+          version=$(echo "$assembly_version" | awk -F. '{print $1"."$2"."$3}')
+          tag="v$version"
+
+          echo "AssemblyVersion: $assembly_version"
+          echo "Version: $version"
+          echo "Tag: $tag"
+
+          echo "version=$version" >> "$GITHUB_OUTPUT"
+          echo "tag=$tag" >> "$GITHUB_OUTPUT"
+
+      - name: Configure Git
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+
+      - name: Check if release exists
+        id: release
+        env:
+          GH_TOKEN: ${{ github.token }}
+        shell: bash
+        run: |
+          tag="${{ steps.version.outputs.tag }}"
+
+          if gh release view "$tag" >/dev/null 2>&1; then
+            echo "Release $tag already exists."
+            echo "exists=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "Release $tag does not exist."
+            echo "exists=false" >> "$GITHUB_OUTPUT"
+          fi
+
+      # New version:
+      # Create the tag and GitHub Release.
+      - name: Create new release
+        if: steps.release.outputs.exists == 'false'
+        env:
+          GH_TOKEN: ${{ github.token }}
+        shell: bash
+        run: |
+          tag="${{ steps.version.outputs.tag }}"
+
+          echo "Creating release $tag..."
+
+          gh release create "$tag" \
+            --target main \
+            --title "$tag" \
+            --generate-notes
+
+      # Same version:
+      # Move the existing tag to the latest main commit and
+      # regenerate the release notes.
+      - name: Update existing release
+        if: steps.release.outputs.exists == 'true'
+        env:
+          GH_TOKEN: ${{ github.token }}
+        shell: bash
+        run: |
+          tag="${{ steps.version.outputs.tag }}"
+
+          echo "Updating $tag to latest main commit..."
+
+          # Move the existing tag to the current main commit.
+          git tag -f "$tag" HEAD
+          git push origin "$tag" --force
+
+          # Find the previous version tag so GitHub can generate
+          # release notes from that version up to the current one.
+          previous_tag=$(
+            git tag \
+              --sort=-version:refname \
+              | grep '^v' \
+              | grep -v "^${tag}$" \
+              | head -n 1
+          )
+
+          if [ -n "$previous_tag" ]; then
+            echo "Generating release notes from $previous_tag to $tag..."
+
+            gh api \
+              --method POST \
+              -H "Accept: application/vnd.github+json" \
+              "/repos/${{ github.repository }}/releases/generate-notes" \
+              -f tag_name="$tag" \
+              -f target_commitish="main" \
+              -f previous_tag_name="$previous_tag" \
+              --jq '.body' > release-notes.md
+          else
+            echo "No previous version tag found."
+
+            gh api \
+              --method POST \
+              -H "Accept: application/vnd.github+json" \
+              "/repos/${{ github.repository }}/releases/generate-notes" \
+              -f tag_name="$tag" \
+              -f target_commitish="main" \
+              --jq '.body' > release-notes.md
+          fi
+
+          echo "Updating GitHub Release $tag..."
+
+          gh release edit "$tag" \
+            --title "$tag" \
+            --notes-file release-notes.md
+
+          echo "Release $tag updated successfully."

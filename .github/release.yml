@@ -1,0 +1,25 @@
+# Configures GitHub's automatically generated release notes.
+#
+# This file does not run as a GitHub Actions workflow.
+# It is automatically used by GitHub when release notes are generated.
+#
+# - Groups merged pull requests based on their labels.
+# - Features are grouped under "Features".
+# - Bug fixes are grouped under "Bug Fixes".
+# - All remaining changes are grouped under "Other Changes".
+
+changelog:
+  categories:
+    - title: Features
+      labels:
+        - enhancement
+        - feature
+
+    - title: Bug Fixes
+      labels:
+        - bug
+        - fix
+
+    - title: Other Changes
+      labels:
+        - "*"

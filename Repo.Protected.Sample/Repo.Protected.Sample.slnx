@@ -1,0 +1,6 @@
+<Solution>
+  <Folder Name="/Solution Items/">
+    <File Path="../Directory.Build.props" />
+  </Folder>
+  <Project Path="Repo.Protected.Sample/Repo.Protected.Sample.csproj" />
+</Solution>

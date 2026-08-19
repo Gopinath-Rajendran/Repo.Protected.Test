@@ -1,0 +1,33 @@
+name: PR policy
+
+on:
+  pull_request:
+    types:
+      - opened
+      - reopened
+      - synchronize
+      - labeled
+      - unlabeled
+      - ready_for_review
+
+permissions:
+  contents: read
+
+jobs:
+  require-label:
+    name: PR has a label
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Verify PR label
+        env:
+          LABELS: ${{ toJson(github.event.pull_request.labels) }}
+        run: |
+          label_count=$(jq 'length' <<< "$LABELS")
+
+          if [ "$label_count" -eq 0 ]; then
+            echo "::error::Add at least one label to this pull request."
+            exit 1
+          fi
+
+          echo "PR has $label_count label(s)."

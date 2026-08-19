@@ -1,0 +1,12 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <ImportWindowsDesktopTargets>false</ImportWindowsDesktopTargets>
+    <UseWPF>false</UseWPF>
+    <AddRevitLib>false</AddRevitLib>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+</Project>

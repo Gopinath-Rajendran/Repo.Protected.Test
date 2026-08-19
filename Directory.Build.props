@@ -1,0 +1,153 @@
+<Project>
+	<PropertyGroup>
+    <PlatformTarget>x64</PlatformTarget>
+    <LangVersion>latest</LangVersion>
+    <OutputType>Library</OutputType>
+    <ImportWindowsDesktopTargets>true</ImportWindowsDesktopTargets>
+    <CopyLocalLockFileAssemblies>true</CopyLocalLockFileAssemblies>
+    <UseWPF>true</UseWPF>
+    <AddRevitLib>true</AddRevitLib>
+    <Configurations>Debug;Debug2018;Debug2019;Debug2020;Debug2021;Debug2022;Debug2023;Debug2024;Debug2025;Debug2026;Debug2027;</Configurations>
+    <Configurations>$(Configurations)Release;Release2018;Release2019;Release2020;Release2021;Release2022;Release2023;Release2024;Release2025;Release2026;Release2027;</Configurations>
+  </PropertyGroup>
+  <PropertyGroup>
+    <PluginName>RepoProtectedSample</PluginName>
+    <AddinFolderName>Repo.Protected.Sample</AddinFolderName>
+    <AddinFileName>Repo.Protected.Sample.addin</AddinFileName>
+    <Authors>DiRoots, LDA.</Authors>
+    <Product>Repo.Protected.Sample for Revit C# .NET Add-In</Product>
+    <Copyright>Copyright © 2017-$([System.DateTime]::Now.Year) DiRoots, LDA.</Copyright>
+    <SignAssembly>False</SignAssembly>
+    <AssemblyVersion>0.1.0.0</AssemblyVersion>
+    <FileVersion>$(AssemblyVersion)</FileVersion>
+    <GenerateAssemblyInfo>true</GenerateAssemblyInfo>
+    <CommonsAssemblyName>Repo.Protected.Sample.Commons</CommonsAssemblyName>
+  </PropertyGroup>
+	<PropertyGroup Condition="$(Configuration.Contains('Debug'))">
+    <TargetFramework>net462</TargetFramework>
+    <IsPackable>false</IsPackable>
+    <DebugSymbols>true</DebugSymbols>
+    <DefineConstants>$(DefineConstants);DEBUG</DefineConstants>
+    <XamlDebuggingInformation>True</XamlDebuggingInformation>
+    <NoWarn>1701;1702;1591</NoWarn>
+  </PropertyGroup>
+  <PropertyGroup Condition="$(Configuration.Contains('Release'))">
+    <TargetFramework>net46</TargetFramework>
+		<Optimize>true</Optimize>
+		<IsPackable>true</IsPackable>
+		<GenerateDocumentationFile>true</GenerateDocumentationFile>
+		<DefineConstants>$(DefineConstants);RELEASE</DefineConstants>
+    <NoWarn>1701;1702;1591</NoWarn>
+	</PropertyGroup>
+  <PropertyGroup Condition="$(Configuration.Contains('2018'))">
+    <RevitVersion>2018</RevitVersion>
+    <ParentFolder>$(ProgramData)\Autodesk\Revit\Addins\$(RevitVersion)</ParentFolder>
+    <TargetFramework>net462</TargetFramework>
+    <IsDotNetFramework>true</IsDotNetFramework>
+    <DefineConstants>$(DefineConstants);Revit2018;RELEASE2018</DefineConstants>
+    <DefineConstants>$(DefineConstants);R18</DefineConstants>
+    <DefineConstants>$(DefineConstants);R18_OR_GREATER</DefineConstants>
+    <DefineConstants>$(DefineConstants);R18_OR_LOWER;R19_OR_LOWER;R20_OR_LOWER;R21_OR_LOWER;R22_OR_LOWER;R23_OR_LOWER;R24_OR_LOWER;R25_OR_LOWER;R26_OR_LOWER;R27_OR_LOWER</DefineConstants>
+  </PropertyGroup>
+	<PropertyGroup Condition="$(Configuration.Contains('2019'))">
+		<RevitVersion>2019</RevitVersion>
+    <ParentFolder>$(ProgramData)\Autodesk\Revit\Addins\$(RevitVersion)</ParentFolder>
+		<TargetFramework>net472</TargetFramework>
+    <IsDotNetFramework>true</IsDotNetFramework>
+    <DefineConstants>$(DefineConstants);Revit2019;RELEASE2019</DefineConstants>
+    <DefineConstants>$(DefineConstants);R19</DefineConstants>
+    <DefineConstants>$(DefineConstants);R18_OR_GREATER;R19_OR_GREATER</DefineConstants>
+    <DefineConstants>$(DefineConstants);R19_OR_LOWER;R20_OR_LOWER;R21_OR_LOWER;R22_OR_LOWER;R23_OR_LOWER;R24_OR_LOWER;R25_OR_LOWER;R26_OR_LOWER;R27_OR_LOWER</DefineConstants>
+  </PropertyGroup>
+	<PropertyGroup Condition="$(Configuration.Contains('2020'))">
+		<RevitVersion>2020</RevitVersion>
+    <ParentFolder>$(ProgramData)\Autodesk\Revit\Addins\$(RevitVersion)</ParentFolder>
+		<TargetFramework>net472</TargetFramework>
+    <IsDotNetFramework>true</IsDotNetFramework>
+    <DefineConstants>$(DefineConstants);Revit2020;RELEASE2020</DefineConstants>
+		<DefineConstants>$(DefineConstants);R20</DefineConstants>
+		<DefineConstants>$(DefineConstants);R18_OR_GREATER;R19_OR_GREATER;R20_OR_GREATER</DefineConstants>
+    <DefineConstants>$(DefineConstants);R20_OR_LOWER;R21_OR_LOWER;R22_OR_LOWER;R23_OR_LOWER;R24_OR_LOWER;R25_OR_LOWER;R26_OR_LOWER;R27_OR_LOWER</DefineConstants>
+	</PropertyGroup>
+	<PropertyGroup Condition="$(Configuration.Contains('2021'))">
+		<RevitVersion>2021</RevitVersion>
+    <ParentFolder>$(ProgramData)\Autodesk\Revit\Addins\$(RevitVersion)</ParentFolder>
+		<TargetFramework>net48</TargetFramework>
+    <IsDotNetFramework>true</IsDotNetFramework>
+    <DefineConstants>$(DefineConstants);Revit2021;RELEASE2021</DefineConstants>
+		<DefineConstants>$(DefineConstants);R21</DefineConstants>
+		<DefineConstants>$(DefineConstants);R18_OR_GREATER;R19_OR_GREATER;R20_OR_GREATER;R21_OR_GREATER</DefineConstants>
+    <DefineConstants>$(DefineConstants);R21_OR_LOWER;R22_OR_LOWER;R23_OR_LOWER;R24_OR_LOWER;R25_OR_LOWER;R26_OR_LOWER;R27_OR_LOWER</DefineConstants>
+	</PropertyGroup>
+	<PropertyGroup Condition="$(Configuration.Contains('2022'))">
+		<RevitVersion>2022</RevitVersion>
+    <ParentFolder>$(ProgramData)\Autodesk\Revit\Addins\$(RevitVersion)</ParentFolder>
+		<TargetFramework>net48</TargetFramework>
+    <IsDotNetFramework>true</IsDotNetFramework>
+    <DefineConstants>$(DefineConstants);Revit2022;RELEASE2022</DefineConstants>
+		<DefineConstants>$(DefineConstants);R22</DefineConstants>
+		<DefineConstants>$(DefineConstants);R18_OR_GREATER;R19_OR_GREATER;R20_OR_GREATER;R21_OR_GREATER;R22_OR_GREATER</DefineConstants>
+    <DefineConstants>$(DefineConstants);R22_OR_LOWER;R23_OR_LOWER;R24_OR_LOWER;R25_OR_LOWER;R26_OR_LOWER;R27_OR_LOWER</DefineConstants>
+	</PropertyGroup>
+	<PropertyGroup Condition="$(Configuration.Contains('2023'))">
+		<RevitVersion>2023</RevitVersion>
+    <ParentFolder>$(ProgramData)\Autodesk\Revit\Addins\$(RevitVersion)</ParentFolder>
+		<TargetFramework>net48</TargetFramework>
+    <IsDotNetFramework>true</IsDotNetFramework>
+    <DefineConstants>$(DefineConstants);Revit2023;RELEASE2023</DefineConstants>
+		<DefineConstants>$(DefineConstants);R23</DefineConstants>
+		<DefineConstants>$(DefineConstants);R18_OR_GREATER;R19_OR_GREATER;R20_OR_GREATER;R21_OR_GREATER;R22_OR_GREATER;R23_OR_GREATER</DefineConstants>
+    <DefineConstants>$(DefineConstants);R23_OR_LOWER;R24_OR_LOWER;R25_OR_LOWER;R26_OR_LOWER;R27_OR_LOWER</DefineConstants>
+	</PropertyGroup>
+	<PropertyGroup Condition="$(Configuration.Contains('2024'))">
+		<RevitVersion>2024</RevitVersion>
+    <ParentFolder>$(ProgramData)\Autodesk\Revit\Addins\$(RevitVersion)</ParentFolder>
+    <TargetFramework>net48</TargetFramework>
+    <IsDotNetFramework>true</IsDotNetFramework>
+    <DefineConstants>$(DefineConstants);Revit2024;RELEASE2024</DefineConstants>
+		<DefineConstants>$(DefineConstants);R24</DefineConstants>
+		<DefineConstants>$(DefineConstants);R18_OR_GREATER;R19_OR_GREATER;R20_OR_GREATER;R21_OR_GREATER;R22_OR_GREATER;R23_OR_GREATER;R24_OR_GREATER</DefineConstants>
+    <DefineConstants>$(DefineConstants);R24_OR_LOWER;R25_OR_LOWER;R26_OR_LOWER;R27_OR_LOWER</DefineConstants>
+	</PropertyGroup>
+  <PropertyGroup Condition="$(Configuration.Contains('2025'))">
+    <RevitVersion>2025</RevitVersion>
+    <ParentFolder>$(ProgramData)\Autodesk\Revit\Addins\$(RevitVersion)</ParentFolder>
+    <TargetFramework>net8.0-windows</TargetFramework>
+    <DefineConstants>$(DefineConstants);Revit2025;RELEASE2025</DefineConstants>
+    <DefineConstants>$(DefineConstants);R25</DefineConstants>
+    <DefineConstants>$(DefineConstants);R18_OR_GREATER;R19_OR_GREATER;R20_OR_GREATER;R21_OR_GREATER;R22_OR_GREATER;R23_OR_GREATER;R24_OR_GREATER;R25_OR_GREATER</DefineConstants>
+    <DefineConstants>$(DefineConstants);R25_OR_LOWER;R26_OR_LOWER;R27_OR_LOWER</DefineConstants>
+  </PropertyGroup>
+  <PropertyGroup Condition="$(Configuration.Contains('2026'))">
+    <RevitVersion>2026</RevitVersion>
+    <ParentFolder>$(ProgramData)\Autodesk\Revit\Addins\$(RevitVersion)</ParentFolder>
+    <TargetFramework>net8.0-windows</TargetFramework>
+    <DefineConstants>$(DefineConstants);Revit2026;RELEASE2026</DefineConstants>
+    <DefineConstants>$(DefineConstants);R26</DefineConstants>
+    <DefineConstants>$(DefineConstants);R18_OR_GREATER;R19_OR_GREATER;R20_OR_GREATER;R21_OR_GREATER;R22_OR_GREATER;R23_OR_GREATER;R24_OR_GREATER;R25_OR_GREATER;R26_OR_GREATER</DefineConstants>
+    <DefineConstants>$(DefineConstants);R26_OR_LOWER;R27_OR_LOWER</DefineConstants>
+  </PropertyGroup>
+  <PropertyGroup Condition="$(Configuration.Contains('2027'))">
+    <RevitVersion>2027</RevitVersion>
+    <ParentFolder>C:\Program Files\Autodesk\Revit\Addins\$(RevitVersion)</ParentFolder>
+    <TargetFramework>net10.0-windows7.0</TargetFramework>
+    <DefineConstants>$(DefineConstants);Revit2027;RELEASE2027</DefineConstants>
+    <DefineConstants>$(DefineConstants);R27</DefineConstants>
+    <DefineConstants>$(DefineConstants);R18_OR_GREATER;R19_OR_GREATER;R20_OR_GREATER;R21_OR_GREATER;R22_OR_GREATER;R23_OR_GREATER;R24_OR_GREATER;R25_OR_GREATER;R26_OR_GREATER;R27_OR_GREATER</DefineConstants>
+    <DefineConstants>$(DefineConstants);R27_OR_LOWER</DefineConstants>
+  </PropertyGroup>
+  <ItemGroup Condition="'$(AddRevitLib)' == 'true'">
+    <Reference Include="AdWindows">
+      <HintPath>$(ProgramW6432)\Autodesk\Revit $(RevitVersion)\AdWindows.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="RevitAPI">
+      <HintPath>$(ProgramW6432)\Autodesk\Revit $(RevitVersion)\RevitAPI.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="RevitAPIUI">
+      <HintPath>$(ProgramW6432)\Autodesk\Revit $(RevitVersion)\RevitAPIUI.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+  </ItemGroup>
+</Project>
